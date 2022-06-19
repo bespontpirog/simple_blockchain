@@ -1,6 +1,8 @@
+mod elliptic_curve;
 mod field;
 
-use field::FieldElement;
+use crate::elliptic_curve::Point;
+use crate::field::FieldElement;
 
 fn main() {
     let f1 = FieldElement::new(6, 8);
@@ -15,5 +17,9 @@ fn main() {
 
     let f1 = FieldElement::new(6, 8);
     let f2 = FieldElement::new(2, 8);
-    print!("{:?}", f1 / f2)
+    println!("{:?}", f1 / f2);
+
+    let p1 = Point::new(-1, -1, 5, 7);
+    let p2 = Point::new(-1, -1, 5, 7);
+    println!("{:?}", p1 != p2);
 }
