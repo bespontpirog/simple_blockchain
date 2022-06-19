@@ -26,17 +26,23 @@ impl std::ops::Add<FieldElement> for FieldElement {
     }
 }
 
-impl std::ops::Mul<u32> for FieldElement {
+impl std::ops::Mul<FieldElement> for FieldElement {
     type Output = FieldElement;
 
-    fn mul(self, rhs: u32) -> Self::Output {
-        FieldElement::new((self.num * rhs) % self.order, self.order)
+    fn mul(self, rhs: FieldElement) -> Self::Output {
+        assert!(self.num != rhs.num, "The order of fields must be equal");
+
+        FieldElement::new((rhs.num * self.num) % rhs.order, rhs.order)
     }
 }
 
-impl std::ops::Mul<FieldElement> for u32 {
+impl std::ops::Div<FieldElement> for FieldElement {
     type Output = FieldElement;
-    fn mul(self, rhs: FieldElement) -> Self::Output {
-        FieldElement::new((rhs.num * self) % rhs.order, rhs.order)
+
+    fn div(self, rhs: FieldElement) -> Self::Output {
+        assert!(self.num != rhs.num, "The order of fields must be equal");
+
+        let back_rhs = rhs.pow(self.order - 2);
+        self * back_rhs
     }
 }
